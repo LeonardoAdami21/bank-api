@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: bank-postgres
+    env_file:
+      - .env
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+    ports:
+      - "${COMPOSE_PG_PORT}:5432"
+    volumes:
+      - ${LOCAL_DB_DATA_PATH}:${DB_DATA_PATH}
+    networks:
+      - postgres-compose-network
+networks:
+  postgres-compose-network:
+    driver: bridge
