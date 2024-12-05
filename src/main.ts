@@ -20,7 +20,7 @@ async function bootstrap() {
     console.log(`Server running on port http://localhost:${nestjsPort}/api`);
   });
 }
-bootstrap().catch(async(err) => {
+bootstrap().catch(async (err) => {
   new Logger('main.ts').error(err);
   const url = discordFailureUrl;
   const msg = typeof err?.message === 'string' ? err.message : '';
