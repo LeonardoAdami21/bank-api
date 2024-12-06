@@ -56,4 +56,12 @@ export class RegisterAuthDto {
     type: String,
   })
   userAvatar?: string;
+
+  @ApiProperty({
+    type: Number,
+    required: false,
+    description: 'User address id',
+    example: 1,
+  })
+  addressId?: number;
 }
