@@ -10,8 +10,9 @@ const isProd = process.env.NODE_ENV === 'production';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Task Manager API')
-    .setDescription('The task manager API description')
+    .setTitle('Bank Api')
+    .setDescription('The Bank API description')
+    .addBearerAuth()
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
