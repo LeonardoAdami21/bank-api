@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { userProfileEnum } from '@prisma/client';
+import { UserProfileEnum } from '../../interface/user-profile.interface';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -24,10 +25,10 @@ export class CreateUserDto {
   userAvatar?: string;
 
   @ApiProperty({
-    enum: userProfileEnum,
-    example: userProfileEnum.USERS, 
+    enum: UserProfileEnum,
+    example: UserProfileEnum.USERS,
   })
-  profile?: userProfileEnum;
+  profile?: UserProfileEnum;
 
   @ApiProperty()
   addressId?: number;

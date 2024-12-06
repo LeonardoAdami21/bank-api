@@ -8,6 +8,7 @@ import { USER_REPOSITORY } from './provider/repository.provider';
 import { PrismaClient, userProfileEnum } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as argon from 'argon2';
+import { UserProfileEnum } from '../interface/user-profile.interface';
 
 @Injectable()
 export class UsersService {
@@ -56,11 +57,48 @@ export class UsersService {
     }
   }
 
-  async create({name, document, email, password, rg, gender, profile}: CreateUserDto) {
+  async create({
+    name,
+    document,
+    email,
+    password,
+    rg,
+    gender,
+    profile,
+    userAvatar,
+    addressId,
+  }: CreateUserDto) {
     try {
       const hashPassword = await argon.hash(password);
-      const user = await this.userRepository.create({ data: { name, document, email, password: hashPassword, rg, gender, profile: profile ?? userProfileEnum.USERS } });
+      const user = await this.userRepository.create({
+        data: {
+          name,
+          document,
+          email,
+          password: hashPassword,
+          rg,
+          gender,
+          profile: profile ?? UserProfileEnum.USERS,
+          userAvatar,
+          addressId,
+        },
+      });
       return user;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async findAccountByUserId(id: number) {
+    try {
+      const account = await this.userRepository.findUnique({
+        where: { id },
+        include: { accounts: true },
+      });
+      if (!account) {
+        throw new NotFoundException('User not found');
+      }
+      return account;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
