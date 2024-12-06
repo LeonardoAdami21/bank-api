@@ -11,8 +11,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Bank Api')
-    .setDescription('The Bank API description')
+    .setDescription('The Bank API description using NestJS, Swagger, Docker and Prisma')
     .addBearerAuth()
+    .addSecurityRequirements('bearer')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);

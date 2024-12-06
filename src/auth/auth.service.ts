@@ -8,9 +8,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Users } from '@prisma/client';
 import * as argon from 'argon2';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
-import { JwtPayloadInterface } from 'src/jwt/jwt-payload.interface';
+import { JwtPayloadInterface } from '../jwt/jwt-payload.interface';
 import { jwtSecret } from '../env/envoriment';
 @Injectable()
 export class AuthService {
