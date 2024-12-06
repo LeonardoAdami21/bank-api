@@ -28,4 +28,7 @@ export class CreateUserDto {
     example: userProfileEnum.USERS, 
   })
   profile?: userProfileEnum;
+
+  @ApiProperty()
+  addressId?: number;
 }
