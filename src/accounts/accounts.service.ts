@@ -6,11 +6,9 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountDto } from './dto/update-account.dto';
-import { ACCOUNTS_REPOSITORY } from './provider/repository.provider';
 import { accountType, PrismaClient } from '@prisma/client';
 import { UsersService } from '../users/users.service';
+import { ACCOUNTS_REPOSITORY } from './provider/repository.provider';
 
 @Injectable()
 export class AccountsService {
@@ -66,6 +64,22 @@ export class AccountsService {
         },
       });
       return accounts;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async findTransactionsByAccountId(accountId: number) {
+    try {
+      const transactions = await this.accountsRepository.findUnique({
+        where: {
+          id: accountId,
+        },
+        include: {
+          transactions: true,
+        },
+      });
+      return transactions;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

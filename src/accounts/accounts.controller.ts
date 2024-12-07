@@ -82,6 +82,6 @@ export class AccountsController {
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @Patch(':id')
   update(@Param('id') id: number, @Body() dto: UpdateAccountDto) {
-    return this.accountsService.update(id, dto.balance);
+    return this.accountsService.update(+id, dto.balance);
   }
 }
