@@ -104,11 +104,12 @@ model Cards {
   expiryDate DateTime
   password   String
   balance    Float       @default(0.0)
-  type       accountType
+  type       cardType
   accountId  Int
   account    Accounts    @relation(fields: [accountId], references: [id])
   userId     Int
   user       Users       @relation(fields: [userId], references: [id])
+  isBlocked  Boolean     @default(false)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
