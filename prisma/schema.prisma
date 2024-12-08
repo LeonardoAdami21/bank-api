@@ -104,6 +104,7 @@ model Cards {
   expiryDate DateTime
   password   String
   balance    Float       @default(0.0)
+  limit      Float?
   type       cardType
   accountId  Int
   account    Accounts    @relation(fields: [accountId], references: [id])
