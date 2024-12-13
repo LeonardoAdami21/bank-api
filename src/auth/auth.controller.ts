@@ -8,6 +8,7 @@ import {
   Delete,
   Request,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
@@ -36,6 +37,7 @@ export class AuthController {
   @ApiBody({
     type: LoginAuthDto,
   })
+  @HttpCode(200)
   @UseGuards(LocalAuthGuard)
   @ApiOperation({ summary: 'Login user' })
   @ApiOkResponse({ description: 'Login successfully' })
