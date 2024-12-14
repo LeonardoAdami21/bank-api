@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { discordFailureUrl, nestjsPort } from './env/envoriment';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { sendDiscordMessage } from './utils/discord.util';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -33,6 +33,8 @@ async function bootstrap() {
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.css',
     ],
   });
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.setGlobalPrefix('api');
   await app.listen(nestjsPort, () => {
     console.log(`Server running on port http://localhost:${nestjsPort}/api`);
   });
