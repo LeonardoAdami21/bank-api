@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
@@ -26,12 +25,15 @@ import { requestUser } from '../jwt/request.type';
 import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
+import { UsersAuthGuard } from '../guards/users-auth.guard';
+
 
 @Controller('accounts')
 @ApiTags('Accounts')
 export class AccountsController {
   constructor(private readonly accountsService: AccountsService) {}
 
+  @UseGuards(UsersAuthGuard)
   @Roles(UserProfileEnum.USERS)
   @ApiOperation({ summary: 'Create account' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -51,8 +53,8 @@ export class AccountsController {
   @ApiOkResponse({ description: 'Accounts found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @Get()
-  findAll() {
-    return this.accountsService.findAll();
+  findAll(@Request() req: requestUser) {
+    return this.accountsService.findAll(req.user.id);
   }
 
   @Roles(UserProfileEnum.USERS)

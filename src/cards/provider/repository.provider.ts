@@ -1,0 +1,1 @@
+export const CARDS_REPOSITORY = 'CARDS_REPOSITORY';

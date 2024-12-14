@@ -2,12 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { accountType } from '@prisma/client';
 
 export class CreateAccountDto {
-  @ApiProperty({
-    example: '123456',
-    description: 'Account number',
-    type: String,
-  })
-  accountNumber: string;
 
   @ApiProperty({
     example: 'Nubank',

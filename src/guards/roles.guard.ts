@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { userProfileEnum } from '@prisma/client';
 import { UserProfileEnum } from '../interface/user-profile.interface';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class RolesGuard implements CanActivate {
     private jwtService: JwtService,
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredRoles = this.reflector.getAllAndOverride<UserProfileEnum[]>(
       'roles',
       [context.getHandler(), context.getClass()],
@@ -30,13 +29,13 @@ export class RolesGuard implements CanActivate {
 
     if (!token) return false;
 
-    const payload = this.jwtService.decode(token) as any;
+    const payload = (await this.jwtService.decode(token)) as any;
 
-    const roles = payload.profile
-      ? payload.profile
-      : payload.user.profile;
+    const roles = payload.profile ? payload.profile : payload.user.profile;
 
-    if (roles.includes(userProfileEnum.ADMIN)) return true;
+    if (roles.includes(UserProfileEnum.ADMIN)) {
+      return true;
+    }
 
     if (requiredRoles.some((role) => roles?.includes(role))) {
       return true;

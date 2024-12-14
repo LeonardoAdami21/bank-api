@@ -38,8 +38,12 @@ export class AuthService {
           data: null,
         };
       }
-      const payload: JwtPayloadInterface = { id: user.id, email: user.email, profile: user.profile };
-      const token = await this.jwtService.sign(payload, { secret: jwtSecret });
+      const payload: JwtPayloadInterface = {
+        id: user.id,
+        email: user.email,
+        profile: user.profile,
+      };
+      const token = this.jwtService.sign(payload, { secret: jwtSecret });
       return {
         message: 'Login successfully',
         data: {
@@ -64,6 +68,50 @@ export class AuthService {
         throw new ConflictException('Invalid document');
       }
       const user = await this.usersService.create(dto);
+      return {
+        message: 'User created successfully',
+        data: user,
+      };
+    } catch (error) {
+      return {
+        message: 'User already exists',
+        data: error,
+      };
+    }
+  }
+
+  async registerAdmin(dto: RegisterAuthDto) {
+    try {
+      const { name, document, email, password } = dto;
+      if (!name || !document || !email || !password) {
+        throw new BadRequestException('All fields are required');
+      }
+      if (document.length !== 11 && document.length !== 14) {
+        throw new ConflictException('Invalid document');
+      }
+      const user = await this.usersService.createAdmin(dto);
+      return {
+        message: 'User created successfully',
+        data: user,
+      };
+    } catch (error) {
+      return {
+        message: 'User already exists',
+        data: error,
+      };
+    }
+  }
+
+  async registerFinance(dto: RegisterAuthDto) {
+    try {
+      const { name, document, email, password } = dto;
+      if (!name || !document || !email || !password) {
+        throw new BadRequestException('All fields are required');
+      }
+      if (document.length !== 11 && document.length !== 14) {
+        throw new ConflictException('Invalid document');
+      }
+      const user = await this.usersService.createFinance(dto);
       return {
         message: 'User created successfully',
         data: user,

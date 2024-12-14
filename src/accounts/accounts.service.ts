@@ -47,9 +47,20 @@ export class AccountsService {
     }
   }
 
-  async findAll() {
+  async findAll(userId: number) {
     try {
-      const accounts = await this.accountsRepository.findMany();
+      const user = await this.usersService.findAccountByUserId(userId);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      const accounts = await this.accountsRepository.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
+        where: {
+          userId,
+        },
+      });
       return accounts;
     } catch (error) {
       throw new InternalServerErrorException(error);
