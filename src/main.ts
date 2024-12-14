@@ -17,7 +17,12 @@ async function bootstrap() {
     .setDescription(
       'The Bank API description using NestJS, Swagger, Docker and Prisma',
     )
-    .addBearerAuth()
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    })
+    .setBasePath('api')
     .addSecurityRequirements('bearer')
     .setVersion('1.0')
     .build();
