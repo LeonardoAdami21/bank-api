@@ -43,7 +43,7 @@ export class AuthService {
         email: user.email,
         profile: user.profile,
       };
-      const token = await this.jwtService.sign(payload, { secret: jwtSecret });
+      const token = this.jwtService.sign(payload, { secret: jwtSecret });
       return {
         message: 'Login successfully',
         data: {

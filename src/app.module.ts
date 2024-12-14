@@ -1,3 +1,5 @@
+import { MailerModule } from '@nestjs-modules/mailer';
+import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
@@ -5,13 +7,12 @@ import { JwtService } from '@nestjs/jwt';
 import { AccountsModule } from './accounts/accounts.module';
 import { AddressModule } from './address/address.module';
 import { AuthModule } from './auth/auth.module';
+import { CardsModule } from './cards/cards.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
-import { UsersModule } from './users/users.module';
 import { TransactionsModule } from './transactions/transactions.module';
-import { CardsModule } from './cards/cards.module';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
+import { UsersModule } from './users/users.module';
+
 
 @Module({
   imports: [
