@@ -1,4 +1,4 @@
 export enum AuthStrategiesEnum {
-    LOCAL = 'local-strategy',
-    USER= 'user-strategy'
+  LOCAL = 'local-strategy',
+  USERS = 'users-strategy',
 }

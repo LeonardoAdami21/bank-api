@@ -11,6 +11,8 @@ import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { PassportModule } from '@nestjs/passport';
 import { jwtSecret } from '../env/envoriment';
 import { ConfigModule } from '@nestjs/config';
+import { UsersStrategy } from '../strategy/users.strategy';
+import { UsersAuthGuard } from '../guards/users-auth.guard';
 
 @Module({
   imports: [
@@ -37,7 +39,7 @@ import { ConfigModule } from '@nestjs/config';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    }
+    },
   ],
   exports: [
     AuthService,

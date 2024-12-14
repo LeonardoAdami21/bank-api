@@ -9,9 +9,14 @@ const isProd = process.env.NODE_ENV === 'production';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: '*',
+  });
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Bank Api')
-    .setDescription('The Bank API description using NestJS, Swagger, Docker and Prisma')
+    .setDescription(
+      'The Bank API description using NestJS, Swagger, Docker and Prisma',
+    )
     .addBearerAuth()
     .addSecurityRequirements('bearer')
     .setVersion('1.0')

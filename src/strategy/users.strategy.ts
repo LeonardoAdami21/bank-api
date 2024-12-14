@@ -10,9 +10,9 @@ import { AuthStrategiesEnum } from '../jwt/auth-strategies.enum';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
-export class UserStrategy extends PassportStrategy(
+export class UsersStrategy extends PassportStrategy(
   Strategy,
-  AuthStrategiesEnum.USER,
+  AuthStrategiesEnum.USERS,
 ) {
   constructor(private authService: AuthService) {
     super({
