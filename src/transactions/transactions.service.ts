@@ -34,6 +34,9 @@ export class TransactionsService {
       if (type === 'WITHDRAW' && account.balance < amount) {
         throw new BadRequestException('Insufficient balance');
       }
+      if (type === 'TRANSFER' && account.balance < amount) {
+        throw new BadRequestException('Insufficient balance');
+      }
       const newBalance =
         type === transactionType.DEPOSIT
           ? account.balance + amount

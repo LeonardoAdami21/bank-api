@@ -46,6 +46,7 @@ export class AccountsService {
       throw new InternalServerErrorException(error);
     }
   }
+  
 
   async findAll(userId: number) {
     try {
