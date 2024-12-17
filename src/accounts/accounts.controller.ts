@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -27,13 +28,11 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { UsersAuthGuard } from '../guards/users-auth.guard';
 
-
 @Controller('accounts')
 @ApiTags('Accounts')
 export class AccountsController {
   constructor(private readonly accountsService: AccountsService) {}
 
-  @UseGuards(UsersAuthGuard)
   @Roles(UserProfileEnum.USERS)
   @ApiOperation({ summary: 'Create account' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -45,7 +44,11 @@ export class AccountsController {
     @Body() createAccountDto: CreateAccountDto,
     @Request() req: requestUser,
   ) {
-    return this.accountsService.create(createAccountDto, req.user.id);
+    const formattedBalance = +createAccountDto.balance;
+    return this.accountsService.create(
+      { ...createAccountDto, balance: formattedBalance },
+      req.user.id,
+    );
   }
 
   @Roles(UserProfileEnum.USERS)
@@ -83,7 +86,21 @@ export class AccountsController {
   @ApiBadRequestResponse({ description: 'All fields are required' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @Patch(':id')
-  update(@Param('id') id: number, @Body() dto: UpdateAccountDto) {
-    return this.accountsService.update(+id, dto.balance);
+  update(
+    @Param('id') id: number,
+    @Body() dto: UpdateAccountDto,
+    @Request() req: requestUser,
+  ) {
+    const formattedBalance = +dto.balance;
+    return this.accountsService.update(+id, formattedBalance, req.user.id);
+  }
+
+  @Roles(UserProfileEnum.USERS)
+  @ApiOperation({ summary: 'Delete account' })
+  @ApiOkResponse({ description: 'Account deleted successfully' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @Delete(':id')
+  remove(@Param('id') id: number, @Request() req: requestUser) {
+    return this.accountsService.delete(+id, req.user.id);
   }
 }

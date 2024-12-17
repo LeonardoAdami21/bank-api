@@ -39,7 +39,7 @@ export class TransactionsService {
           ? account.balance + amount
           : account.balance - amount;
 
-      await this.accountsService.update(account.id, newBalance);
+      await this.accountsService.update(account.id, newBalance, account.userId);
       const transaction = await this.transactionRepository.create({
         data: {
           amount,
