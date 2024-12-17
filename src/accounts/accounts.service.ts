@@ -112,8 +112,12 @@ export class AccountsService {
     }
   }
 
-  async update(id: number, balance: number) {
+  async update(id: number, balance: number, userId: number) {
     try {
+      const user = await this.usersService.findAccountByUserId(userId);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
       if (!balance) {
         throw new BadRequestException('All fields are required');
       }
@@ -131,10 +135,38 @@ export class AccountsService {
         },
         data: {
           balance,
+          userId,
         },
       });
       return {
         message: 'Account updated successfully',
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async delete(id: number, userId: number) {
+    try {
+      const user = await this.usersService.findAccountByUserId(userId);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      const account = await this.accountsRepository.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!account) {
+        throw new NotFoundException('Account not found');
+      }
+      await this.accountsRepository.delete({
+        where: {
+          id,
+        },
+      });
+      return {
+        message: 'Account deleted successfully',
       };
     } catch (error) {
       throw new InternalServerErrorException(error);
