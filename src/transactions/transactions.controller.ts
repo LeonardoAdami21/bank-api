@@ -39,7 +39,13 @@ export class TransactionsController {
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @Post()
   create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionsService.create(createTransactionDto);
+    const formattedBalance = +createTransactionDto.amount;
+    const formattedAccountId = +createTransactionDto.accountId;
+    return this.transactionsService.create({
+      ...createTransactionDto,
+      amount: formattedBalance,
+      accountId: formattedAccountId,
+    });
   }
 
   @Roles(UserProfileEnum.USERS)
@@ -51,7 +57,7 @@ export class TransactionsController {
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @Get()
-  findAll(@Query('limit') limit: number= 10, @Query('page') page: number = 1) {
+  findAll(@Query('limit') limit: number = 10, @Query('page') page: number = 1) {
     return this.transactionsService.findAll(+limit, +page);
   }
 
