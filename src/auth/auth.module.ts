@@ -36,6 +36,8 @@ import { UsersAuthGuard } from '../guards/users-auth.guard';
     JwtStrategy,
     JwtAuthGuard,
     JwtService,
+    UsersStrategy,
+    UsersAuthGuard,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
@@ -47,6 +49,8 @@ import { UsersAuthGuard } from '../guards/users-auth.guard';
     LocalAuthGuard,
     JwtStrategy,
     JwtAuthGuard,
+    UsersAuthGuard,
+    UsersStrategy
   ],
 })
 export class AuthModule {}
